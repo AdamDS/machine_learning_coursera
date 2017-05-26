@@ -17,10 +17,20 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+mo = ones( size( y ) );
+z = X*theta; %mxn * nx1 = mx1
+expo = exp( -z );
+hyp = mo./( mo + expo );
+loghyp = log( hyp );
+loghypmo = log( mo - hyp );
+omy = mo - y;
+term = -y.*loghyp;
+termmo = omy.*loghypmo;
+J = sum( term - termmo )/m;
+J = J + ( lambda/( 2*m ) )*theta(2:end)'*theta(2:end);
 
-
-
-
+grad = X'*( hyp - y )/m; %mxn * mx1 = mx1
+grad(2:end) = grad(2:end) + ( lambda/m )*theta(2:end);
 
 % =============================================================
 

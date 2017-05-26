@@ -15,11 +15,10 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
-
-
-
-
-
+z = X*theta; %100x3 * 3x1
+prob = sigmoid( z );
+yea = find( prob >= 0.5 );
+p( yea ) = 1;
 
 % =========================================================================
 

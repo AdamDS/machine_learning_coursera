@@ -12,12 +12,11 @@ figure; hold on;
 %               examples and 'ko' for the negative examples.
 %
 
+yAdmit = find( y == 1 );
+plot( X( yAdmit , 1 ) , X( yAdmit , 2 ) , 'k+' , 'LineWidth' , 2 , 'MarkerSize' , 4 )
 
-
-
-
-
-
+yNotAd = find( y == 0 );
+plot( X( yNotAd , 1 ) , X( yNotAd , 2 ) , 'ko' , 'MarkerFaceColor' , 'y' , 'MarkerSize' , 4 )
 
 
 % =========================================================================

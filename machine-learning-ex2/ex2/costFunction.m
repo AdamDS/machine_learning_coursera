@@ -20,12 +20,17 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+oho = ones( size( y ) );
+z = X*theta; %100x3 * 3x1 = 100x1
+hyp = sigmoid( z ); %100x1
+loghyp = log( hyp ); %100x1
+loghypmo = log( oho - hyp ); %100x1
+term = -y.*loghyp; %
+termmo = ( oho - y ).*loghypmo; %nx1 * 
+J = sum( term - termmo ) / m;
 
-
-
-
-
-
+terms = X'*( hyp - y ); %3x100*( 100x1 - 100x1 ) = 3x1
+grad = terms / m;
 
 % =============================================================
 
