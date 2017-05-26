@@ -12,8 +12,9 @@ theta = zeros(size(X, 2), 1);
 
 % ---------------------- Sample Solution ----------------------
 
-
-
+inverse = pinv( X'*X ); %nxm*mxn => nxn
+exes = inverse*X'; %nxn*nxm => nxm
+theta = exes*y; %mxn*nx1 => mx1
 
 % -------------------------------------------------------------
 

@@ -16,8 +16,11 @@ figure; % open a new figure window
 %       appear as red crosses. Furthermore, you can make the
 %       markers larger by using plot(..., 'rx', 'MarkerSize', 10);
 
-
-
+plot( x , y , 'rx' , 'MarkerSize' , 6 );
+xlim( [ 4 , 24 ] );
+ylim( [-5 , 25 ] );
+ylabel( 'Profit in $10,000s' );
+xlabel( 'Population of City in 10,000s' );
 
 
 % ============================================================

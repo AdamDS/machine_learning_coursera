@@ -13,9 +13,11 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
-
-
-
+scale = 1 / ( 2*m );
+hypothesis = X*theta;
+difference = hypothesis - y;
+summation = difference'*difference;
+J = scale*summation;
 
 % =========================================================================
 
