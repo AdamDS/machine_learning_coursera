@@ -30,10 +30,16 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
-
+topProb = p;
+iProb = p;
+for i = 1:num_labels
+	theta = all_theta(i,:)';
+	z = X*theta;
+	iProb = sigmoid( z );
+	update = find( iProb > topProb );
+	topProb( update ) = iProb( update );
+	p( update ) = i;
+endfor
 
 
 % =========================================================================

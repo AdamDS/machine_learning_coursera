@@ -21,13 +21,18 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
-
-
-
-
-
-
-
+X = [ones(size(X,1),1) X]; % 5000 x 401
+iProb = p;
+topProb = p;
+for i = 1:num_labels
+  z2 = Theta1*X'; % 25 x 401 * 401 x 5000 = 25 x 5000
+  a2 = [ones(1,size(z2,2)); sigmoid( z2 )]; % 26 x 5000
+  z3 = Theta2(i,:)*a2; % 1 x 5000
+  iProb = sigmoid( z3' );
+  update = find( iProb > topProb );
+  topProb( update ) = iProb( update );
+  p( update ) = i;
+ endfor
 
 % =========================================================================
 

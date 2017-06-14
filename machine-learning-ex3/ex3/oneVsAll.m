@@ -49,16 +49,15 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
-
-
-
-
-
-
-
-
-
-
+for i = 1:num_labels
+	initial_theta = all_theta( i , : )';
+	yi = y == mod( i , 10 );
+	%[J , grad] = lrCostFunction( t , X , yi , lambda );
+	options = optimset('GradObj', 'on', 'MaxIter', 400);
+	[theta, J, exit_flag] = ...
+		fminunc( @(t)(lrCostFunction( t, X, yi , lambda)), initial_theta, options);	
+	all_theta( i , : ) = theta';
+endfor
 
 % =========================================================================
 
