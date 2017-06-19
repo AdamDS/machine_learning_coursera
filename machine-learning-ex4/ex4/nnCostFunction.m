@@ -38,6 +38,23 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+o = ones( m , 1 );
+a1 = [o X]; % 5000 x 401
+z1 = a1*Theta1'; % 5000 x 401 * 401 x 25
+a2 = [o sigmoid( z1 )]; % 5000 x 26
+z2 = a2*Theta2'; % 5000 x 26 * 26 x 10
+a3 = sigmoid( z2 ); % 5000 x 10
+loga = log( a3 );
+logoma = log( o - a3 );
+for i = 1:num_labels
+	update = find( y == i );
+	Y( update , i ) = 1;
+end
+omy = ones(size(Y)) - Y; % 5000 x 10
+J = sum( sum( -loga.*Y - logoma.*omy ) ) / m;
+J
+J += ( lambda / ( 2 * m ) ) * ( sum( sum( Theta1( : , 2:end ).^2 ) ) + sum( sum( Theta2( : , 2:end ) .^ 2 ) ) );
+
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -53,7 +70,31 @@ Theta2_grad = zeros(size(Theta2));
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
-%
+for t = 1:m
+	% step 1
+	a1 = [1 X(t,:)]; % 1 x 401
+	z2 = a1*Theta1'; % 1 x 401 * 401 x 25
+	a2 = [1 sigmoid( z2 )]; % 1 x 26
+	z3 = a2*Theta2'; % 1 x 26 * 26 x 10
+	a3 = sigmoid( z3 ); % 1 x 10
+	for i = 1:num_labels
+		update = find( y == i );
+		Y( update , i ) = 1;
+	end
+	% step 2
+	delta3 = a3 - Y(t,:); % 5000 x 10
+	% step 3
+	sGz2 = [ 1 sigmoidGradient( z2 ) ];
+	delta2 = delta3*Theta2.* sGz2; % 5000 x 10 * 10 x 26 .* 5000 x 26
+	delta2 = delta2(:,2:end);
+	% step 4
+	Theta2_grad = Theta2_grad + delta3'*a2; % 26 x 5000 * 5000 x 10
+	Theta1_grad = Theta1_grad + delta2'*a1; % 
+end
+% step 5
+Theta2_grad = Theta2_grad / m;
+Theta1_grad = Theta1_grad / m;
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -62,23 +103,10 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+zt1 = zeros( size( Theta1 , 1 ) , 1 );
+zt2 = zeros( size( Theta2 , 1 ) , 1 );
+Theta2_grad += ( lambda / m ) * [ zt2 Theta2( : , 2:end ) ];
+Theta1_grad += ( lambda / m ) * [ zt1 Theta1( : , 2:end ) ];
 
 % -------------------------------------------------------------
 
