@@ -19,16 +19,16 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+hyp = X*theta; %12x2 * 2x1
+hypmy = hyp - y;
+product = hypmy.*X;
+theta_rows = size(theta,1);
 
+J = hypmy'*hypmy/( 2*m );
+J = J + lambda*sum( theta(2:end).^2 )/( 2*m );
 
-
-
-
-
-
-
-
-
+grad(1) = ( 1/m )*( sum( product(:,1) )' );
+grad(2:theta_rows) = ( 1/m )*( sum( product(:,2:theta_rows) )' ) + (lambda/m)*theta(2:theta_rows);
 
 % =========================================================================
 
