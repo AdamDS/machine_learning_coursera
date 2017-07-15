@@ -23,11 +23,26 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+C2Try = [ 0.01 , 0.03 , 0.1 , 0.3 , 1 , 3 , 10 , 30 ];
+sigma2Try = [ 0.01 , 0.03 , 0.1 , 0.3 , 1 , 3 , 10 , 30 ];
+attempt = 0;
+error = zeros( length( C2Try ) , length( sigma2Try ) );
+for ci = 1:length( C2Try )
+  c = C2Try(ci);
+  for si = 1:length( sigma2Try )
+    s = sigma2Try(si);
+    attempt = attempt + 1;
+%    fprintf( '%i\t%f\t%f' , attempt , c , s );
+    model = svmTrain( X , y , c , @( x1 , x2 ) gaussianKernel( x1 , x2 , s ) , 1e-3 , 20 );
+    predictions = svmPredict( model , Xval );
+    error(ci,si) = mean( double( predictions ~= yval));
+  end
+end
 
-
-
-
-
+minError = min( min( error ) );
+[iMin,jMin] = find( error == minError );
+C = C2Try(iMin(1));
+sigma = sigma2Try(jMin(1));
 
 % =========================================================================
 
