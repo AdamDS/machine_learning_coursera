@@ -21,11 +21,17 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
-
-
-
-
+for xi = 1:size( X , 1 )
+  bestC = inf;
+  for ci = 1:size( centroids , 1 )
+    dist = X(xi,:) - centroids(ci,:);
+    norm = dist*dist';
+    if ( norm < bestC )
+      bestC = norm;
+      idx(xi) = ci;
+    end
+  end
+end
 
 % =============================================================
 
