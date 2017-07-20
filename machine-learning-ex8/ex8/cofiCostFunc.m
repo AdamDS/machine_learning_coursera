@@ -45,6 +45,8 @@ J = 0.5*sum(sum(diff.*diff));
 X_grad = diff*Theta;
 Theta_grad = diff'*X;
 J = J + (lambda/2)*( sum(sum(X.*X)) + sum(sum(Theta.*Theta)) );
+X_grad = X_grad + lambda*X;
+Theta_grad = Theta_grad + lambda*Theta;
 
 % =============================================================
 
